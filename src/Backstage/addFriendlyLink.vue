@@ -4,15 +4,17 @@
     <el-col :span="21">
       <div class="titleSty">新增友情链接</div>
       <el-form :label-position="left" label-width="120px" :model="form">
-        <el-form-item label="链接名">
-          <el-input v-model="form.linkName"></el-input>
+        <el-form-item label="链接名" style="width:30%;" class="item">
+          <el-input v-model="form.linkName" class="inner"></el-input>
         </el-form-item>
-        <el-form-item label="链接地址">
-          <el-input v-model="form.addr"></el-input>
+        <el-form-item label="链接地址"  class="item">
+          <el-input v-model="form.addr" class="inner"></el-input>
         </el-form-item>
-        <el-form-item label="链接备注">
-          <el-input v-model="form.info"></el-input>
+        <el-form-item label="链接备注"  class="item">
+          <el-input v-model="form.info" class="inner"></el-input>
         </el-form-item>
+        <el-button type="primary" @click="onSubmit">立即创建</el-button>
+        <el-button @click="cancel">取消</el-button>
       </el-form>
 		</el-col>
 	</div>
@@ -30,7 +32,12 @@ export default {
     }
   },
   methods: {
-
+      onSubmit(){
+        console.log("创建此链接");
+      },
+      cancel(){
+        this.$router.push({path:'/admin/friendlyLink',params:{id:'123'}});
+      }
     },
     components:{
       sideRouter
@@ -38,5 +45,11 @@ export default {
 }
 </script>
 <style>
-	
+.item{
+  margin-top: 10px;
+  width: 80%;
+}
+.inner{
+  align-items: left;
+}
 </style>

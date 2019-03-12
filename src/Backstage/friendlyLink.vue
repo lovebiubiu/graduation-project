@@ -4,7 +4,7 @@
     <el-col :span="21">
         <div class="titleSty">友情链接管理</div>
         <div style="margin-left:40px;margin-top:20px;margin-bottom:20px;text-align:left">
-          <el-button type="primary">添加新的友情链接</el-button>
+          <el-button type="primary" @click="toAddNewLink">添加新的友情链接</el-button>
         </div>
         <el-table
         :data="tableData"
@@ -79,6 +79,9 @@ export default {
   methods: {
       handleClick(row) {
         console.log(row);
+      },
+      toAddNewLink(){
+        this.$router.push({path:'/admin/addFriendlyLink'});
       }
     },
     components:{

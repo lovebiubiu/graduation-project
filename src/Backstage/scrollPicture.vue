@@ -115,12 +115,12 @@ export default {
   .el-form-item__label{
     font-size:18px;
     padding-right: 0px;
-    margin-right: 10px;
   }
   .el-form-item__content{
 
     text-align: left;
-    max-width: 350px;
+    left: 10px;
+    max-width: 80%;
   }
 
   .avatar-uploader .el-upload {

@@ -94,9 +94,7 @@ export default {
     font-size:25px;
     font-weight: 600;
   }
-	.element.style{
-	    padding-left: 50px;
-	}
+
   .el-submenu .el-menu-item{
     min-width:0px;
   }

@@ -15,7 +15,6 @@
       :default-active="activeIndex"
       class="el-menu"
       mode="horizontal"
-      @select="handleSelect"
       background-color="#545c64"
       text-color="#fff"
       router="true"
@@ -28,9 +27,18 @@
           <el-menu-item index="/dataPlayer">球员</el-menu-item>
           <el-menu-item index="/dataTeam">球队</el-menu-item>
         </el-submenu>
-        <el-menu-item index="5">友情链接</el-menu-item>
+        <el-menu-item @click="showdialog">友情链接</el-menu-item>
     </el-menu>
     </el-row>
+    <el-dialog
+      title="友情链接"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :before-close="handleClose">
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">返回</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -38,12 +46,14 @@
 export default {
   data () {
     return {
-      activeIndex: '1'
+      activeIndex: '1',
+      dialogVisible:false,
     }
   },
   methods: {
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
+      showdialog(){
+        console.log("showdialog");
+        this.dialogVisible=true;
       }
     }
 }
