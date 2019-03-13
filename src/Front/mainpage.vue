@@ -222,17 +222,17 @@ export default {
 .newsboard{
 	width: 95%;
 	margin-right: 5%;
-	border:1px solid #000;
+	border:3px solid #BBB;
 	height: 660px;
 	margin-top: 20px;
 }
 .playerboard{
-	border:1px solid #000;
+	border:1px solid #BBB;
 	height: 320px;
 	margin-top: 20px;
 }
 .teamboard{
-	border:1px solid #000;
+	border:1px solid #BBB;
 	height: 320px;
 	margin-top: 18px;
 }

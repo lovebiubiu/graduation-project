@@ -31,8 +31,8 @@ export default {
 <style>
   .newsbody{
     margin-top: 20px;
-    margin-left: 5%;
-    width: 90%;
+    margin-left: 10%;
+    width: 80%;
     height: 800px;
     border:1px solid black;
   }

@@ -58,11 +58,11 @@ export default {
 </script>
 <style>
   .el-menu-side{
-    width: 50px;
+    width: 55px;
     min-height: 200px;
   }
   .sideStyle{
-      right: 0px;
+      right: 6.1%;
       top: 35%;
       position: fixed;
   }

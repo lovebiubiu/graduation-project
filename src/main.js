@@ -9,6 +9,10 @@ Vue.use(ElementUI)
 Vue.config.productionTip = false
 Vue.prototype.$imgUrl = 'F:/desgin/myproject/src/assets/'
 /* eslint-disable no-new */
+router.afterEach((to,from,next) => {
+  window.scrollTo(0,0);
+})
+
 new Vue({
   el: '#app',
   router,

@@ -31,10 +31,30 @@
     </el-menu>
     </el-row>
     <el-dialog
+      class="dialogSty"
       title="友情链接"
       :visible.sync="dialogVisible"
-      width="30%"
+      width="45%"
       :before-close="handleClose">
+      <el-table
+          :data="linkData"
+          style="width: 100%">
+          <el-table-column
+            prop="linkName"
+            label="链接名"
+            >
+          </el-table-column>
+          <el-table-column
+            prop="linkAddress"
+            label="地址"
+            >
+          </el-table-column>
+          <el-table-column
+            prop="linkInfo"
+            label="链接简介"
+            >
+          </el-table-column>
+        </el-table>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">返回</el-button>
       </span>
@@ -48,6 +68,23 @@ export default {
     return {
       activeIndex: '1',
       dialogVisible:false,
+      linkData:[
+        {
+          linkName:'链接1',
+          linkAddress:'www.xxx.com',
+          linkInfo:'简介1',
+        },
+        {
+          linkName:'链接2',
+          linkAddress:'www.xxx.com',
+          linkInfo:'简介2',
+        },
+        {
+          linkName:'链接3',
+          linkAddress:'www.xxx.com',
+          linkInfo:'简介3',
+        },
+      ],
     }
   },
   methods: {
