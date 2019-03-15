@@ -9,19 +9,19 @@
     @close="handleClose" 
     router="true"
     :collapse="isCollapse">
-      <el-menu-item @click="toTop()">
+      <el-menu-item @click="toTop()" title="回到顶部">
         <i class="el-icon-arrow-up"></i>
         <span slot="title">回到顶部</span>
       </el-menu-item>
-      <el-menu-item index="/">
+      <el-menu-item index="/" title="首页">
         <i class="el-icon-menu"></i>
         <span slot="title">首页</span>
       </el-menu-item>
-      <el-menu-item index="/news">
+      <el-menu-item index="/news" title="新闻">
         <i class="el-icon-news"></i>
         <span slot="title">新闻</span>
       </el-menu-item>
-      <el-menu-item index="schedule">
+      <el-menu-item index="schedule" title="赛程">
         <i class="el-icon-date"></i>
         <span slot="title">赛程</span>
       </el-menu-item>

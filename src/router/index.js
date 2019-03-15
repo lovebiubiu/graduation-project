@@ -5,6 +5,8 @@ import news from '@/Front/newspage'
 import dataPlayer from '@/Front/dataPlayerpage'
 import dataTeam from '@/Front/dataTeampage'
 import schedule from '@/Front/schedulepage'
+import dataPlayerDetail from '@/Front/dataPlayerDetail'
+import dataTeamDetail from '@/Front/dataTeamDetail'
 
 import bgindex from '@/Backstage/backgroundIndex'
 import login from '@/Backstage/login'
@@ -17,6 +19,7 @@ import teamDataInput from '@/Backstage/teamDataInput'
 import teamDataManagement from '@/Backstage/teamDataManagement'
 import addNews from '@/Backstage/addNews'
 import newsManagement from '@/Backstage/newsManagement'
+
 
 Vue.use(Router)
 
@@ -38,9 +41,19 @@ export default new Router({
       component: dataPlayer
     },
     {
+      path: '/dataPlayerDetail',
+      name: '球员数据详情页',
+      component: dataPlayerDetail
+    },
+    {
       path: '/dataTeam',
       name: '球队数据页',
       component: dataTeam
+    },
+    {
+      path: '/dataTeamDetail',
+      name: '球队数据详情页',
+      component: dataTeamDetail
     },
     {
       path: '/schedule',

@@ -9,7 +9,7 @@
       </el-button>
       <div v-for="(team,index) in schedule" :key="index" class="scheduleSty">
         <div class="teamNameSty">
-          <div><img class="teamimg" /></div>
+          <div><img src="../assets/team/senlinglang.jpg" class="teamimg" /></div>
           <span>{{team.mainTeamName}}</span>
         </div>
         <div class="matchInfoSty">
@@ -36,7 +36,7 @@
           </div>
         </div>
         <div class="teamNameSty">
-            <div><img class="teamimg" /></div>
+            <div><img src="../assets/team/huixiong.jpg" class="teamimg" /></div>
             <span>{{team.secondTeamName}}</span>
         </div>           
       </div>
@@ -164,7 +164,7 @@ export default {
     justify-content: center;
   }
   .teamimg{
-    width: 200px;
+    width: 300px;
     height: 200px;
   }
   .teamNameSty{
@@ -175,12 +175,12 @@ export default {
     justify-content: flex-start;
   }
   .scheduleSty{
-    width: 80%;
+    width: 90%;
     margin-top: 50px;
-    margin-left: 10%;
-    border:1px solid #333;
+    margin-left: 5%;
     height: 300px;
     display: flex;
+    border:2px solid #DDD;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: flex-start;

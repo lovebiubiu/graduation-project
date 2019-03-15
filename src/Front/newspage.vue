@@ -30,6 +30,7 @@
       <div class="pageRouter">
         <div>
           <el-button type="primary" icon="el-icon-arrow-left" size="mini">上一页</el-button>
+          <span>1/13</span>
           <el-button type="primary" size="mini">下一页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
         </div>
         <div style="margin-left:20px;"> 
