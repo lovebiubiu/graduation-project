@@ -20,7 +20,6 @@ import teamDataManagement from '@/Backstage/teamDataManagement'
 import addNews from '@/Backstage/addNews'
 import newsManagement from '@/Backstage/newsManagement'
 
-
 Vue.use(Router)
 
 export default new Router({

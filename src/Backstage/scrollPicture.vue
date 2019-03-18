@@ -141,9 +141,4 @@ export default {
     line-height: 178px;
     text-align: center;
   }
-  .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
-  }
 </style>
