@@ -1,7 +1,6 @@
 <template>
   <div>
   	<sideRouter></sideRouter>
-    asdasd
   </div>
 </template>
 <script>
@@ -15,9 +14,11 @@ export default {
   methods: {
 
     },
+    created: function () {
+  },
 	components:{
-	sideRouter,
-   }
+	 sideRouter,
+  }
 }
 </script>
 <style>

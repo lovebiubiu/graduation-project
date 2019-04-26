@@ -12,42 +12,42 @@
           prop="id"
           label="新闻编号"
           align="center"
-          width="100">
+          width="200">
         </el-table-column>
         <el-table-column
-          prop="newsTitle"
+          prop="title"
           label="新闻标题"
           width="600">
         </el-table-column>
         <el-table-column
-          prop="newsAuthor"
+          prop="author"
           label="发布方"
-          width="150">
+          width="120">
         </el-table-column>
         <el-table-column
-          prop="newsTime"
+          prop="date"
           label="发布日期"
           width="150">
         </el-table-column>
         <el-table-column
-          label="操作"
+          label="是否显示"
           align="center"
-          width="120">
+          width="100">
           <template slot-scope="scope">
-            <el-button type="danger" size="mini" icon="el-icon-delete" circle></el-button>
-            <el-button type="danger" size="mini" icon="el-icon-delete" circle></el-button>
+            <el-button v-if="scope.row.visible==1" size="mini" @click="setVisible(scope)" type="success" icon="el-icon-check" circle></el-button>
+            <el-button v-else-if="scope.row.visible==0" size="mini" @click="setVisible(scope)" type="info" icon="el-icon-check" circle></el-button>
           </template>
         </el-table-column>
       </el-table>
       <div class="pageRouter_2">
         <div>
-          <el-button type="primary" icon="el-icon-arrow-left" size="mini">上一页</el-button>
-          <span>1/13</span>
-          <el-button type="primary" size="mini">下一页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+          <el-button type="primary" @click="lastPage()" v-if="pageNum!=0" icon="el-icon-arrow-left" size="mini">上一页</el-button>
+          <span>页数：{{pageNum+1}}/5</span>
+          <el-button type="primary" @click="nextPage()" v-if="pageNum!=4" size="mini">下一页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
         </div>
         <div style="margin-left:20px;"> 
           <el-input v-model="toPageNum" placeholder="请输入页数" size="mini" style="width:95px;"></el-input>
-          <el-button type="primary" size="mini">跳转</el-button>
+          <el-button type="primary" size="mini" @click="inputToPage()">跳转</el-button>
         </div>
       </div>
     </el-col>
@@ -58,72 +58,91 @@ import sideRouter from '@/Backstage/BackstageComponents/router.vue'
 export default {
   data () {
     return {
-      newsData:[
-        {
-          id:'10001',
-          newsTitle:'詹姆斯1节连得14分，打出NBA第1人尊严，率领摆烂湖人知耻而后勇',
-          newsAuthor:'毛罗聊球',
-          newsTime:'2019-3-13',
-        },
-        {
-          id:'10002',
-          newsTitle:'多谢火箭放人！弃将12+7+2成3巨头绝配，莫雷这交易操作一举两得',
-          newsAuthor:'体育谈资',
-          newsTime:'2019-3-13',
-        },
-        {
-          id:'10003',
-          newsTitle:'再砍54+10+7！火箭帮送湖人出局，场下400亿老板振臂高呼',
-          newsAuthor:'体坛新人小刘',
-          newsTime:'2019-3-13',
-        },
-        {
-          id:'10004',
-          newsTitle:'悍将归来！火箭宣布转正豪斯合同，冲刺西部第一又添利器',
-          newsAuthor:'罗说NBA',
-          newsTime:'2019-3-13',
-        },
-        {
-          id:'10005',
-          newsTitle:'詹姆斯1节连得14分，打出NBA第1人尊严，率领摆烂湖人知耻而后勇',
-          newsAuthor:'毛罗聊球',
-          newsTime:'2019-3-13',
-        },
-        {
-          id:'10006',
-          newsTitle:'詹姆斯1节连得14分，打出NBA第1人尊严，率领摆烂湖人知耻而后勇',
-          newsAuthor:'毛罗聊球',
-          newsTime:'2019-3-13',
-        },
-        {
-          id:'10007',
-          newsTitle:'詹姆斯1节连得14分，打出NBA第1人尊严，率领摆烂湖人知耻而后勇',
-          newsAuthor:'毛罗聊球',
-          newsTime:'2019-3-13',
-        },
-        {
-          id:'10008',
-          newsTitle:'詹姆斯1节连得14分，打出NBA第1人尊严，率领摆烂湖人知耻而后勇',
-          newsAuthor:'毛罗聊球',
-          newsTime:'2019-3-13',
-        },
-        {
-          id:'10009',
-          newsTitle:'詹姆斯1节连得14分，打出NBA第1人尊严，率领摆烂湖人知耻而后勇',
-          newsAuthor:'毛罗聊球',
-          newsTime:'2019-3-13',
-        },
-        {
-          id:'10010',
-          newsTitle:'詹姆斯1节连得14分，打出NBA第1人尊严，率领摆烂湖人知耻而后勇',
-          newsAuthor:'毛罗聊球',
-          newsTime:'2019-3-13',
-        },
-      ],
+      toPageNum:null,
+      newsData:[],
+      pageNum:0,
     }
   },
+  created: function () { 
+      this.getNewsInfo();
+  },
   methods: {
-
+      setVisible(scope){
+        var that = this;
+        console.log(scope);
+        $.ajax({
+          url: this.$host+'setVisible',
+          type: 'post',
+          data:{
+            id:scope.row.id
+          },
+          success: function (data) {
+              alert('设置成功');
+              that.getNewsInfo();
+          },
+          error: function(xhr, errorType, error) {
+              alert('请求错误, 错误类型: ' + errorType +  ', error: ' + error)
+          }
+      });
+      },
+      onCellClick(row, column, cell, event){
+      console.log(row);
+      window.open(row.url);
+      },
+      lastPage(){
+        console.log("lastPage");
+        var that = this;
+        that.pageNum-=1;
+        that.getNewsInfo();
+        window.scroll(0,80);
+      },
+      nextPage(){
+        console.log("nextPage");
+        var that = this;
+        that.pageNum+=1;
+        that.getNewsInfo();
+        window.scroll(0,80);
+      },
+      inputToPage(){
+        var that = this;
+        console.log(that.toPageNum);
+        if(that.toPageNum>5||that.toPageNum<1){
+          alert('请输入正确的页数');
+        }else{
+          that.pageNum=parseInt(that.toPageNum)-1;
+          that.getNewsInfo();
+          window.scroll(0,80);
+          that.toPageNum=null;
+        }
+        
+      },
+      getNewsInfo(){
+      var that = this;
+      $.ajax({
+          url: this.$host+'getNewsBackstage?pageNum='+that.pageNum,
+          type: 'get',
+          dataType: 'json',
+          success: function (data) {
+            var i ;
+            var arr = new Array();
+            for(i=0;i<data.length;i++){
+              var temp ={};
+              temp["id"]=data[i]["id"];
+              temp["title"]=data[i]["title"];
+              temp["author"]=data[i]["description"];
+              temp["date"]=data[i]["ctime"];
+              temp["pictrueUrl"]=data[i]["picurl"];
+              temp["url"]=data[i]["url"];
+              temp["visible"]=data[i]["visible"];
+              arr.push(temp);
+            }
+            that.newsData=arr;
+          },
+          error: function(xhr, errorType, error) {
+              alert('请求错误, 错误类型: ' + errorType +  ', error: ' + error)
+          }
+      });
+    },
     },
   components:{
   sideRouter,

@@ -38,19 +38,20 @@
       :before-close="handleClose">
       <el-table
           :data="linkData"
+          @cell-click="onCellClick"
           style="width: 100%">
           <el-table-column
-            prop="linkName"
+            prop="linkname"
             label="链接名"
             >
           </el-table-column>
           <el-table-column
-            prop="linkAddress"
+            prop="linkurl"
             label="地址"
             >
           </el-table-column>
           <el-table-column
-            prop="linkInfo"
+            prop="linkdescription"
             label="链接简介"
             >
           </el-table-column>
@@ -68,29 +69,33 @@ export default {
     return {
       activeIndex: '1',
       dialogVisible:false,
-      linkData:[
-        {
-          linkName:'链接1',
-          linkAddress:'www.xxx.com',
-          linkInfo:'简介1',
-        },
-        {
-          linkName:'链接2',
-          linkAddress:'www.xxx.com',
-          linkInfo:'简介2',
-        },
-        {
-          linkName:'链接3',
-          linkAddress:'www.xxx.com',
-          linkInfo:'简介3',
-        },
-      ],
+      linkData:[],
     }
   },
   methods: {
-      showdialog(){
-        console.log("showdialog");
-        this.dialogVisible=true;
+    onCellClick(row){
+      console.log(row);
+      window.open(row.linkurl);
+    },
+    showdialog(){
+      var that = this;
+      console.log("showdialog");
+      $.ajax({
+          url: this.$host+'getFriendlyLinkList',
+          type: 'get',
+          data:{},
+          xhrFields: {
+              withCredentials: true
+          },
+          success: function (data) {
+            console.log(data);
+            that.dialogVisible=true;
+            that.linkData = data;
+          },
+          error: function(xhr, errorType, error) {
+              alert('Ajax request error, errorType: ' + errorType +  ', error: ' + error)
+          }
+        });
       }
     }
 }

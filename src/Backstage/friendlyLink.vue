@@ -17,31 +17,26 @@
           width="150">
         </el-table-column>
         <el-table-column
-          prop="linkName"
+          prop="linkname"
           label="链接名"
           width="180">
         </el-table-column>
         <el-table-column
-          prop="date"
-          label="添加日期"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          prop="address"
+          prop="linkurl"
           label="地址"
           width="300">
         </el-table-column>
         <el-table-column
-          prop="info"
-          label="备注"
-          width="120">
+          prop="linkdescription"
+          label="网站描述"
+          width="320">
         </el-table-column>
         <el-table-column
           label="操作"
           align="center"
           width="80">
           <template slot-scope="scope">
-            <el-button type="danger" size="mini" icon="el-icon-delete" circle></el-button>
+            <el-button type="danger" @click="deleteLink(scope)" size="mini" icon="el-icon-delete" circle></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -53,35 +48,57 @@ import sideRouter from '@/Backstage/BackstageComponents/router.vue'
 export default {
   data () {
     return {
-      tableData: [{
-          date: '2016-05-02',
-          linkName: '洛谷',
-          address: 'www.luogu.org',
-          info: "在线刷题"
-        }, {
-          date: '2016-05-04',
-          linkName: '百度',
-          address: 'www.baidu.com',
-          info: "搜索引擎"
-        }, {
-          date: '2016-05-01',
-          linkName: '哔哩哔哩',
-          address: 'www.bilibili.tv',
-          info: "视频网站"
-        }, {
-          date: '2016-05-03',
-          linkName: '斗鱼',
-          address: 'www.douyu.tv',
-          info: "热门直播"
-        }]
+      tableData: []
     }
   },
+  created: function () { 
+      this.getList();
+  },
   methods: {
+      getList(){
+        var that = this;
+        $.ajax({
+              url: this.$host+'getFriendlyLinkList',
+              type: 'get',
+              xhrFields: {
+                  withCredentials: true
+              },
+              success: function (data) {
+                console.log(data);
+                that.tableData = data;
+              },
+              error: function(xhr, errorType, error) {
+                  alert('Ajax request error, errorType: ' + errorType +  ', error: ' + error)
+              }
+          }); 
+      },
       handleClick(row) {
         console.log(row);
       },
       toAddNewLink(){
         this.$router.push({path:'/admin/addFriendlyLink'});
+      },
+      deleteLink(scope){
+        var that = this;
+        console.log(scope.$index);
+        $.ajax({
+          url: this.$host+'deleteFriendlyLink',
+          type: 'post',
+          data:{
+              id:that.tableData[scope.$index].id
+          },
+          xhrFields: {
+              withCredentials: true
+          },
+          success: function (data) {
+            console.log(data);
+            alert('删除成功');
+            that.getList();
+          },
+          error: function(xhr, errorType, error) {
+              alert('Ajax request error, errorType: ' + errorType +  ', error: ' + error)
+          }
+      });   
       }
     },
     components:{

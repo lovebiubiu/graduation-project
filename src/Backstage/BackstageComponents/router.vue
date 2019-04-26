@@ -48,7 +48,7 @@
 		        </template>
 		        <el-menu-item-group>
 		          <el-menu-item index="/admin/newsManagement">管理新闻</el-menu-item>
-		          <el-menu-item index="/admin/addNews">添加新闻</el-menu-item>
+		          <!-- <el-menu-item index="/admin/addNews">添加新闻</el-menu-item> -->
 		        </el-menu-item-group>
 		      </el-submenu>
 		    </el-menu>
@@ -68,6 +68,37 @@ export default {
   },
   created:function(){
   	this.defaultActive=this.$router.history.current.path;
+	 var that = this;
+	  console.group('created 创建完毕状态===============》');
+	  console.log(that.$token+"---------"+that.$userName);
+	  if(that.$config.token==''||that.$config.userName==''){
+	    alert('请重新登录后操作');
+	    that.$router.push({path:'/admin/login'});
+	  }else{
+	       $.ajax({
+	        url: this.$host+'tokenValidate',
+	        type: 'post',
+	        data:{
+	            token:that.$config.token,
+	            userName:that.$config.userName
+	        },
+	        xhrFields: {
+	            withCredentials: true
+	        },
+	        success: function (data) {
+	          console.log(data);
+	          if(data=="1"){
+	            console.log("登录成功");
+	          }else{
+	            alert('请重新登录后操作');
+	            that.$router.push({path:'/admin/login'});
+	          }
+	        },
+	        error: function(xhr, errorType, error) {
+	            alert('Ajax request error, errorType: ' + errorType +  ', error: ' + error)
+	        }
+	    });   
+      }
   },
   methods: {
   	 handleOpen(key, keyPath) {

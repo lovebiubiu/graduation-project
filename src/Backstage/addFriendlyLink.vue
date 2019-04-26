@@ -8,10 +8,10 @@
           <el-input v-model="form.linkName" class="inner"></el-input>
         </el-form-item>
         <el-form-item label="链接地址"  class="item">
-          <el-input v-model="form.addr" class="inner"></el-input>
+          <el-input v-model="form.linkUrl" class="inner"></el-input>
         </el-form-item>
         <el-form-item label="链接备注"  class="item">
-          <el-input v-model="form.info" class="inner"></el-input>
+          <el-input v-model="form.description" class="inner"></el-input>
         </el-form-item>
         <el-button type="primary" @click="onSubmit">保存</el-button>
         <el-button @click="cancel">取消</el-button>
@@ -26,17 +26,39 @@ export default {
     return {
       form:{
         linkName:'',
-        addr:'',
-        info:''
+        linkUrl:'',
+        description:''
       },
     }
   },
   methods: {
       onSubmit(){
+        var that = this;
         console.log("创建此链接");
+        console.log(that.form.linkName+"--"+that.form.linkUrl+"--"+that.form.description+"--");
+        $.ajax({
+          url: this.$host+'insertFriendlyLink',
+          type: 'post',
+          data:{
+              linkName:that.form.linkName,
+              linkUrl:that.form.linkUrl,
+              linkDescription:that.form.description
+          },
+          xhrFields: {
+              withCredentials: true
+          },
+          success: function (data) {
+            console.log(data);
+            alert('添加成功')
+            that.$router.push({path:'/admin/friendlyLink'});
+          },
+          error: function(xhr, errorType, error) {
+              alert('Ajax request error, errorType: ' + errorType +  ', error: ' + error)
+          }
+      }); 
       },
       cancel(){
-        this.$router.push({path:'/admin/friendlyLink',params:{id:'123'}});
+        this.$router.push({path:'/admin/friendlyLink',params:{}});
       }
     },
     components:{

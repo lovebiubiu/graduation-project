@@ -41,12 +41,12 @@
 					      :data="playerdata"
 					      style="width: 100%">
 					      <el-table-column
-					        prop="playerName"
+					        prop="chineseName"
 					        label="球员"
 					        width="200">
 					      </el-table-column>
 					      <el-table-column
-					        prop="playerRate"
+					        prop="defen"
 					        label="评分">
 					      </el-table-column>
 					    </el-table>
@@ -79,99 +79,13 @@ import topmenu from '@/components/topmenu.vue'
 import bottom from '@/components/bottom.vue'
 import newscard from '@/components/newsCard.vue'
 import side from '@/components/side.vue'
-
+import util from '@/utils/base.js'
 export default {
   data () {
     return {
-      newsdata:[
-      {
-      	id:'10001',
-      	title:'美女排球运动员公开择偶标准，不仅要帅还要强！最好是黑人',
-      	author:'懂个球',
-      	date:'2019-3-12'
-      	},
-      {
-	  	  id:'10002',
-	      title:'励志哥又回来了！湖人签下33岁老将，那动情一幕你还记得吗？',
-	      author:'罗说NBA',
-	      date:'2019-3-12'
-		},
-      {	
-      	  id:'10003',
-	      title:'彻底取代奥运最佳！女排24岁新科冠军坐稳第一人，郎平没看走眼',
-	      author:'泉城侃球',
-	      date:'2019-3-12'
- 		 },
-      {
-      	id:'10004',
-	      title:'围棋“七冠王”柯洁被清华免试录取 主攻工商管理',
-	      author:'浙江新闻',
-	      date:'2019-3-12'
- 		 },
-      {
-      	id:'10005',
-      	title:'不买内马尔！齐达内钦点2亿巨头加盟皇马 C罗真正接班人',
-      	author:'护球出线',
-      	date:'2019-3-12'
-		  },
-      {
-      	id:'10006',
-      	title:'新闻标题6',
-      	author:'作者6',
-      	date:'2019-3-12'
- 		 },
-      {
-      	id:'10007',
-      	title:'新闻标题7',
-      	author:'作者7',
-      	date:'2019-3-12'
-  		},
-      {
-      	id:'10008',
-      	title:'新闻标题8',
-      	author:'作者8',
-      	date:'2019-3-12'
-  		},
-  		{
-      	id:'10009',
-      	title:'新闻标题9',
-      	author:'作者9',
-      	date:'2019-3-12'
-  		},
-  		{
-      	id:'10010',
-      	title:'新闻标题10',
-      	author:'作者10',
-      	date:'2019-3-12'
-  		},
-      ],
-      playerdata:[
-      {
-      	id:'1',
-      	playerName:'杰伦 亚当斯',
-      	playerRate:'9.8',
-      },
-      {
-      	id:'2',
-      	playerName:'斯蒂文 亚当斯',
-      	playerRate:'9.6',
-      },
-      {
-      	id:'3',
-      	playerName:'巴姆 阿德巴约',
-      	playerRate:'9.6',
-      },
-      {
-      	id:'4',
-      	playerName:'邓 Adel',
-      	playerRate:'9.5',
-      },
-      {
-      	id:'5',
-      	playerName:'劳勒 Alkins',
-      	playerRate:'9.5',
-      },
-      ],
+    	pageNum:0,
+      newsdata:[],
+      playerdata:[],
       teamdata:[
       {
       	id:'1',
@@ -201,10 +115,58 @@ export default {
       ],
     }
   },
+  created: function () {
+            console.group('created 创建完毕状态===============》');
+            var that = this;
+            that.getNewsList();
+            that.getPlayerRankList();
+        },
   methods: {
+  	getPlayerRankList(){
+  		var that = this;
+  		$.ajax({
+                url: this.$host+'getPlayerEloList',
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                	console.log(data);
+                	that.playerdata = data;
+                },
+                error: function(xhr, errorType, error) {
+                    alert('Ajax request error, errorType: ' + errorType +  ', error: ' + error)
+                }
+            });
+  	},
+  	getNewsList(){ 
+  		var that = this;
+  		$.ajax({
+                url: this.$host+'getNews?pageNum='+that.pageNum,
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                	var i ;
+                	var arr = new Array();
+                	for(i=0;i<data.length;i++){
+                		var temp ={};
+                		temp["title"]=data[i]["title"];
+                		temp["author"]=data[i]["description"];
+                		temp["date"]=data[i]["ctime"];
+                		temp["pictrueUrl"]=data[i]["picurl"];
+                		temp["url"]=data[i]["url"];
+                		arr.push(temp);
+                	}
+                	that.newsdata=arr;
+                    console.log(arr);
+                },
+                error: function(xhr, errorType, error) {
+                    alert('Ajax request error, errorType: ' + errorType +  ', error: ' + error)
+                }
+            });
+  	},
 	onCellClick(row, column, cell, event){
-		console.log(row);
-		},
+      console.log(row);
+      window.open(row.url);
+      },
 	lookNewsClick(){
 		this.$router.push({path:'/news'});
 	}

@@ -13,7 +13,17 @@
         
         </div>
       </div>
-      
+      <div class="pageRouter_2">
+        <div>
+          <el-button type="primary" @click="lastPage()" v-if="pageNum!=0" icon="el-icon-arrow-left" size="mini">上一页</el-button>
+          <span>页数：{{pageNum+1}}/{{limitPage}}</span>
+          <el-button type="primary" @click="nextPage()" v-if="pageNum+1!=limitPage" size="mini">下一页<i class="el-icon-arrow-right el-icon--right"></i></el-button>
+        </div>
+        <div style="margin-left:20px;"> 
+          <el-input v-model="toPageNum" placeholder="请输入页数" size="mini" style="width:95px;"></el-input>
+          <el-button type="primary" size="mini" @click="inputToPage()">跳转</el-button>
+        </div>
+      </div>
     </div>
     <side></side>
     <bottom></bottom>
@@ -27,6 +37,8 @@ import echarts from 'echarts'
 export default {
   data () {
     return {
+      pageNum:0,
+      limitPage:10,
       players:[
         {
           id:'1',
@@ -58,13 +70,11 @@ export default {
           playerName:'劳勒 Alkins',
           playerRate:'92.5',
         },
-        {
-          id:'7',
-          playerName:'劳勒 Alkins',
-          playerRate:'92.5',
-        },
       ],
     }
+  },
+  created: function () { 
+      this.getPlayerList();
   },
  mounted() {
             this.$nextTick(function() {
@@ -72,16 +82,27 @@ export default {
                 for(idIter=1;idIter<=this.players.length;idIter++){
                   this.drawPie(idIter);
                 }
-                
             })
         },
   methods: {
+      getPlayerList(){
+        var that = this;
+        $.ajax({
+          url: this.$host+'getPlayerList',
+          type: 'get',
+          success: function (data) {
+              console.log(data);
+          },
+          error: function(xhr, errorType, error) {
+              alert('请求错误, 错误类型: ' + errorType +  ', error: ' + error)
+          }
+      });
+      },
       toPlayerDetail(id){
         console.log(id);
         this.$router.push({path:'/dataPlayerDetail',query:{playerId:133}});
       },
-     drawPie(id) {
-                console.log("绘制"+id);
+      drawPie(id){
                 var charts = echarts.init(document.getElementById(id));
                 var option = {
                     title: {
@@ -156,6 +177,14 @@ export default {
 }
 </script>
 <style>
+  .pageRouter_2{
+      position: absolute;
+      bottom: 10px;
+      right: 80px;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+  }
   .playerInfoSty{
     width: 150px;
     height: 200px;
@@ -179,6 +208,7 @@ export default {
     justify-content: flex-start;
   }
   .newsbody_4{
+    position: relative;
     margin-top: 20px;
     margin-left: 10%;
     width: 80%;

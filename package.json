@@ -13,6 +13,7 @@
   "dependencies": {
     "echarts": "^4.1.0",
     "element-ui": "^2.4.11",
+    "jquery": "^3.4.0",
     "vue": "^2.5.2",
     "vue-pano": "^1.4.1",
     "vue-router": "^3.0.1"
