@@ -5,11 +5,11 @@
       <div style="width:100%;"><h2>球员数据</h2></div>
       <div class="playerSty" v-for="(player,index) in players" :key="index" @click="toPlayerDetail(index)">
         <div class="playerInfoSty">
-          <span>{{player.playerName}}</span>
-          <div><img src="../assets/player/1628959.png" style="height:130px;width:150px" /></div>
+          <span>{{player.chinesename}}</span>
+          <div><img :src="player.avatarurl" style="height:110px;width:130px" /></div>
           <span>能力评分：{{player.playerRate}}</span>
         </div>
-        <div :id="player.id" class="chartSty">
+        <div :id="index+1" class="chartSty">
         
         </div>
       </div>
@@ -38,60 +38,72 @@ export default {
   data () {
     return {
       pageNum:0,
-      limitPage:10,
-      players:[
-        {
-          id:'1',
-          playerName:'劳勒 Alkins',
-          playerRate:'92.5',
-        },
-        {
-          id:'2',
-          playerName:'劳勒 Alkins',
-          playerRate:'92.5',
-        },
-        {
-          id:'3',
-          playerName:'劳勒 Alkins',
-          playerRate:'92.5',
-        },
-        {
-          id:'4',
-          playerName:'劳勒 Alkins',
-          playerRate:'92.5',
-        },
-        {
-          id:'5',
-          playerName:'劳勒 Alkins',
-          playerRate:'92.5',
-        },
-        {
-          id:'6',
-          playerName:'劳勒 Alkins',
-          playerRate:'92.5',
-        },
-      ],
+      limitPage:0,
+      players:[],
+      toPageNum:0,
     }
   },
   created: function () { 
+      this.getAllLength();
       this.getPlayerList();
+
   },
- mounted() {
-            this.$nextTick(function() {
-                var idIter;
-                for(idIter=1;idIter<=this.players.length;idIter++){
-                  this.drawPie(idIter);
-                }
-            })
-        },
   methods: {
+      lastPage(){
+        var that = this;
+        that.pageNum-=1;
+        this.getPlayerList();
+      },
+      nextPage(){
+        var that = this;
+        that.pageNum+=1;
+        this.getPlayerList();
+      },
+      getAllLength(){
+        var that = this;
+         $.ajax({
+          url: this.$host+'getAllLength',
+          type: 'get',
+          success: function (data) {
+              console.log("length"+data);
+              that.limitPage = Math.ceil(data/9);
+          },
+          error: function(xhr, errorType, error) {
+              alert('请求错误, 错误类型: ' + errorType +  ', error: ' + error)
+          }
+      });
+      },
+      draw(){
+        var idIter;
+        //console.log("len="+this.players.length)
+        for(idIter=1;idIter<=this.players.length;idIter++){
+          console.log("绘制pie")    
+          this.drawPie(idIter);
+        }
+      },
       getPlayerList(){
         var that = this;
         $.ajax({
-          url: this.$host+'getPlayerList',
+          url: this.$host+'getPlayerList?toPageNum='+that.pageNum,
           type: 'get',
           success: function (data) {
               console.log(data);
+              that.players = data;
+              that.$nextTick(function() {
+                var idIter;
+                for(idIter=1;idIter<=that.players.length;idIter++){
+                  that.players[idIter-1].defen=that.players[idIter-1].defen>=35?35:that.players[idIter-1].defen;
+                  that.players[idIter-1].lanban = that.players[idIter-1].lanban>=15?15:that.players[idIter-1].lanban;
+                  that.players[idIter-1].gaimao=that.players[idIter-1].gaimao>=3?3:that.players[idIter-1].gaimao;
+                  that.players[idIter-1].zhugong=that.players[idIter-1].zhugong>=10?10:that.players[idIter-1].zhugong;
+                  that.players[idIter-1].qiangduan = that.players[idIter-1].qiangduan>=3?3:that.players[idIter-1].qiangduan;
+                  that.players[idIter-1].mingzhong1 = that.players[idIter-1].mingzhong1.substring(0,that.players[idIter-1].mingzhong1.length-1);
+                  that.players[idIter-1].mingzhong1 = parseFloat(that.players[idIter-1].mingzhong1);
+                  that.players[idIter-1].mingzhong1 = that.players[idIter-1].mingzhong1>=55?55:that.players[idIter-1].mingzhong1;
+                  console.log(that.players[idIter-1].mingzhong1);
+                  that.drawPie(idIter,that.players[idIter-1]);
+                }
+            })
           },
           error: function(xhr, errorType, error) {
               alert('请求错误, 错误类型: ' + errorType +  ', error: ' + error)
@@ -102,7 +114,7 @@ export default {
         console.log(id);
         this.$router.push({path:'/dataPlayerDetail',query:{playerId:133}});
       },
-      drawPie(id){
+      drawPie(id,player){
                 var charts = echarts.init(document.getElementById(id));
                 var option = {
                     title: {
@@ -131,27 +143,27 @@ export default {
                         startAngle: 270,
                         indicator: [{
                                 name: '得分',
-                                max: 100
+                                max: 35
                             },
                             {
                                 name: '篮板',
-                                max: 100
+                                max: 15
                             },
                             {
                                 name: '盖帽',
-                                max: 100
+                                max: 3
                             },
                             {
-                                name: '罚篮',
-                                max: 100
+                                name: '命中',
+                                max: 55
                             },
                             {
                                 name: '助攻',
-                                max: 100
+                                max: 10
                             },
                             {
-                                name: '防守',
-                                max: 100
+                                name: '抢断',
+                                max: 3
                             }
                         ],
                     },
@@ -160,7 +172,7 @@ export default {
                         type: 'radar',
                         itemStyle: {normal: {areaStyle: {type: 'default'}}},
                         data: [{
-                            value: [80,60,70,95,74,90],
+                            value: [player.defen,player.lanban,player.gaimao,player.mingzhong1,player.zhugong,player.qiangduan],
                             name: "数据详情 "
                         }]
                     }]

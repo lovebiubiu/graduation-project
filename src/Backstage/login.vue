@@ -31,7 +31,7 @@ export default {
     }
   },
   created: function () {
-      console.group('created 创建完毕状态===============》');
+     
 
   },
   methods: {

@@ -11,8 +11,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 Vue.prototype.$imgUrl = 'F:/desgin/myproject/src/assets/'
-// Vue.prototype.$host = 'http://10.89.118.105:8080/'
-Vue.prototype.$host = 'http://localhost:7777/'
+Vue.prototype.$host = 'http://10.89.118.105:7777/'
+// Vue.prototype.$host = 'http://localhost:7777/'
 Vue.prototype.$util = utils
 Vue.prototype.$config = config
 /* eslint-disable no-new */

@@ -155,6 +155,6 @@ export default {
     flex-direction: row;
     justify-content: center;
     margin-left: 55%;
-    margin-top: 20px;
+    bottom: -50px;
   }
 </style>

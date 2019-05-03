@@ -69,7 +69,6 @@ export default {
   created:function(){
   	this.defaultActive=this.$router.history.current.path;
 	 var that = this;
-	  console.group('created 创建完毕状态===============》');
 	  console.log(that.$token+"---------"+that.$userName);
 	  if(that.$config.token==''||that.$config.userName==''){
 	    alert('请重新登录后操作');

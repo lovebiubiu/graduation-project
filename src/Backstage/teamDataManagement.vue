@@ -9,7 +9,7 @@
       <el-table
         :data="teamDataList"
         @cell-click="onCellClick"
-        style="width: 60%;margin-left:20%;">
+        style="width: 70%;margin-left:15%;">
         <el-table-column
           prop="teamid"
           label="球队编号"

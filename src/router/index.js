@@ -19,7 +19,7 @@ import teamDataInput from '@/Backstage/teamDataInput'
 import teamDataManagement from '@/Backstage/teamDataManagement'
 import addNews from '@/Backstage/addNews'
 import newsManagement from '@/Backstage/newsManagement'
-
+import addScrollpicture from '@/Backstage/addScrollpicture'
 Vue.use(Router)
 
 export default new Router({
@@ -114,6 +114,11 @@ export default new Router({
       path: '/admin/newsManagement',
       name: '管理新闻',
       component: newsManagement
+    },
+    {
+      path: '/admin/addScrollpicture',
+      name: '添加新的轮播图',
+      component: addScrollpicture
     },
   ]
 })

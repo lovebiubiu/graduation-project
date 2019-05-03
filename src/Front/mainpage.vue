@@ -46,7 +46,7 @@
 					        width="200">
 					      </el-table-column>
 					      <el-table-column
-					        prop="defen"
+					        prop="playerRank"
 					        label="评分">
 					      </el-table-column>
 					    </el-table>
@@ -57,12 +57,12 @@
 					      :data="teamdata"
 					      style="width: 100%">
 					      <el-table-column
-					        prop="teamName"
+					        prop="chinesenickname"
 					        label="球队"
 					        width="200">
 					      </el-table-column>
 					      <el-table-column
-					        prop="teamRate"
+					        prop="rank"
 					        label="势力值">
 					      </el-table-column>
 					    </el-table>
@@ -86,50 +86,45 @@ export default {
     	pageNum:0,
       newsdata:[],
       playerdata:[],
-      teamdata:[
-      {
-      	id:'1',
-      	teamName:'亚特兰大 老鹰',
-      	teamRate:'96.7',
-      },
-      {
-      	id:'2',
-      	teamName:'波士顿 凯尔特人',
-      	teamRate:'95.4',
-      },
-      {
-      	id:'3',
-      	teamName:'芝加哥 公牛',
-      	teamRate:'95.2',
-      },
-      {
-      	id:'4',
-      	teamName:'夏洛特 黄蜂',
-      	teamRate:'94.8',
-      },
-      {
-      	id:'5',
-      	teamName:'布鲁克林 篮网',
-      	teamRate:'94.6',
-      },
-      ],
+      teamdata:[],
     }
   },
   created: function () {
-            console.group('created 创建完毕状态===============》');
+     
             var that = this;
             that.getNewsList();
             that.getPlayerRankList();
+            that.getTeamRankList();
         },
   methods: {
-  	getPlayerRankList(){
+  	getTeamRankList(){
   		var that = this;
   		$.ajax({
-                url: this.$host+'getPlayerEloList',
+                url: this.$host+'getTeamRankList',
                 type: 'get',
                 dataType: 'json',
                 success: function (data) {
                 	console.log(data);
+                	that.teamdata = data;
+                },
+                error: function(xhr, errorType, error) {
+                    alert('Ajax request error, errorType: ' + errorType +  ', error: ' + error)
+                }
+            });
+  	},
+  	getPlayerRankList(){
+  		var that = this;
+  		$.ajax({
+                url: this.$host+'getPlayerRankList',
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                	console.log(data);
+                	var i,len;
+                	len = data.length;
+                	for(i=0;i<len;i++){
+                		data[i].playerRank =(data[i].playerRank*2.5).toFixed(2); 
+                	}
                 	that.playerdata = data;
                 },
                 error: function(xhr, errorType, error) {
