@@ -3,14 +3,13 @@
     <topmenu></topmenu>
     <div class="newsbody_4">
       <div style="width:100%;"><h2>球员数据</h2></div>
-      <div class="playerSty" v-for="(player,index) in players" :key="index" @click="toPlayerDetail(index)">
+      <div class="playerSty" v-for="(player,index) in players" :key="index" @click="toPlayerDetail(player)">
         <div class="playerInfoSty">
           <span>{{player.chinesename}}</span>
           <div><img :src="player.avatarurl" style="height:110px;width:130px" /></div>
           <span>能力评分：{{player.playerRate}}</span>
         </div>
         <div :id="index+1" class="chartSty">
-        
         </div>
       </div>
       <div class="pageRouter_2">
@@ -46,9 +45,21 @@ export default {
   created: function () { 
       this.getAllLength();
       this.getPlayerList();
-
   },
   methods: {
+      inputToPage(){
+        var that = this;
+        console.log(that.toPageNum);
+        if(that.toPageNum>that.limitPage||that.toPageNum<1){
+          alert('请输入正确的页数');
+        }else{
+          that.pageNum=parseInt(that.toPageNum)-1;
+          that.getPlayerList();
+          window.scroll(0,110);
+          that.toPageNum=null;
+        }
+        
+      },
       lastPage(){
         var that = this;
         that.pageNum-=1;
@@ -84,7 +95,7 @@ export default {
       getPlayerList(){
         var that = this;
         $.ajax({
-          url: this.$host+'getPlayerList?toPageNum='+that.pageNum,
+          url: this.$host+'getPlayerList?pageNum='+that.pageNum,
           type: 'get',
           success: function (data) {
               console.log(data);
@@ -110,9 +121,9 @@ export default {
           }
       });
       },
-      toPlayerDetail(id){
-        console.log(id);
-        this.$router.push({path:'/dataPlayerDetail',query:{playerId:133}});
+      toPlayerDetail(player){
+        console.log(player);
+        this.$router.push({path:'/dataPlayerDetail',query:{id:player.id}});
       },
       drawPie(id,player){
                 var charts = echarts.init(document.getElementById(id));

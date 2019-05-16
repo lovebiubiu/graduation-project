@@ -56,7 +56,7 @@ export default {
       getTeamRankList(){
           var that = this;
           $.ajax({
-              url: this.$host+'getTeamEloList',
+              url: this.$host+'getTeamList',
               type: 'get',
               dataType: 'json',
               success: function (data) {

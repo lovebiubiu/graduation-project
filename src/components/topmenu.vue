@@ -5,7 +5,7 @@
         <div class="topStyle">
           <img src="../assets/NBAlogo.png" width="150" height="100" />
           <font class="titleStyle">
-            NBA球员数据统计网  
+            NBA球员数据统计网站  
           </font>
         </div>
       </el-col>
