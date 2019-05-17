@@ -31,8 +31,8 @@
 		        </template>
 		        <el-submenu index="2-1">
 		          <template slot="title">球员数据</template>
-		          <el-menu-item index="/admin/playerDataManagement">球员数据管理</el-menu-item>
-		          <el-menu-item index="/admin/playerDataInput">球员数据录入</el-menu-item>
+		          <!-- <el-menu-item index="/admin/playerDataManagement">球员数据管理</el-menu-item>
+		          <el-menu-item index="/admin/playerDataInput">球员数据录入</el-menu-item> -->
 		        </el-submenu>
 		        <el-submenu index="2-2">
 		          <template slot="title">球队数据</template>

@@ -69,7 +69,7 @@ export default {
       getTeamList(){
         var that = this;
          $.ajax({
-          url: this.$host+'getTeamList',
+          url: this.$host+'getAllList',
           type: 'get',
           success: function (data) {
               console.log(data);

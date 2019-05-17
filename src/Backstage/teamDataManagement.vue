@@ -27,7 +27,7 @@
           label="rank"
           width="200">
         </el-table-column>
-        <el-table-column
+        <!-- <el-table-column
           prop="win"
           label="胜场"
           width="100">
@@ -36,7 +36,7 @@
           prop="lose"
           label="败场"
           width="100">
-        </el-table-column>
+        </el-table-column> -->
       </el-table>
     </el-col>
 	</div>
